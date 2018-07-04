@@ -30,3 +30,5 @@ alias 'ansible=docker run --rm ernestgwilsonii/ansible:2.5.5 ansible'
 ansible --version
 
 
+# Create local file for use later if a bash alias (above) is not lazy enough!
+echo -en '#!/bin/bash\ndocker run --rm ernestgwilsonii/ansible:2.5.5 ansible "$@"' > /usr/local/bin/ansible && chmod +x /usr/local/bin/ansible
