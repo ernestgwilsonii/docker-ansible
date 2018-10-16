@@ -25,12 +25,22 @@ docker push ernestgwilsonii/ansible:2.7.0
 ################################################################################
 # Run #
 #######
+
+# Create a local /etc/ansible
+sudo mkdir -p /etc/ansible
+sudo chmod -R a+rwx /etc/ansible
+# Edit Docker preferences on MAC and add "File Sharing" location: /etc/ansible
+
 # Setup an "ansible" alias for BASH
-alias 'ansible=docker run --rm -v /opt/ansible:/etc/ansible ernestgwilsonii/ansible:2.7.0 ansible'
+alias 'ansible=docker run --rm -v /etc/ansible:/etc/ansible ernestgwilsonii/ansible:2.7.0 ansible'
 
 # Test
 ansible --version
 
 
 # Create local file for use later if a bash alias (above) is not lazy enough!
-echo -en '#!/bin/bash\ndocker run --rm ernestgwilsonii/ansible:2.7.0 ansible "$@"' > /usr/local/bin/ansible && chmod +x /usr/local/bin/ansible
+sudo echo -en '#!/bin/bash\ndocker run --rm -v /etc/ansible:/etc/ansible ernestgwilsonii/ansible:2.7.0 ansible "$@"' > /usr/local/bin/ansible && sudo chmod +x /usr/local/bin/ansible
+sudo echo -en '#!/bin/bash\ndocker run --rm -v /etc/ansible:/etc/ansible ernestgwilsonii/ansible:2.7.0 ansible-playbook "$@"' > /usr/local/bin/ansible-playbook && sudo chmod +x /usr/local/bin/ansible-playbook
+
+# MAC notes
+brew install http://git.io/sshpass.rb
